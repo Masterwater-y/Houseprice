@@ -1,0 +1,32 @@
+$maincolor: rgb(245,108,108);
+
+
+.el-menu-item{
+  &.is-active{
+    background-color: rgba(245,108,108,0.2) !important; //sass语法 &表示上一级选择器
+  }
+  padding-left: 50px !important;
+}
+.el-submenu{
+  &.is-active.is-opened{  //用.el-submenu__title 无法修改，原因未知
+    div{background-color: rgb(245,108,108) !important;}
+    .el-menu-item-group__title{background-color: transparent !important;}
+  }
+}
+
+.el-menu--vertical{
+  .el-menu-item:hover{
+      background-color: $maincolor !important;
+  }
+
+}
+.close {
+  .el-submenu {
+    &.is-opened {
+      background-color: $maincolor !important;
+    }
+  }
+}
+
+
+//通过浏览器审查元素获取

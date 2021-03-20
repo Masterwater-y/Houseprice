@@ -1,0 +1,35 @@
+//后台框架尺寸
+//菜单宽度
+$navMenu: 250px;
+$layoutHeader: 75px;
+$navMenuMin: 64px;
+
+.pull-left{
+  float: left;
+}
+.pull-right{
+  float: right;
+}
+body{
+  font-size: 15px;
+}
+
+@mixin webkit($type, $value){
+  -webkit-#{$type}: $value;
+  -moz-#{$type}: $value;
+  -o-#{$type}: $value;
+  -ms-#{$type}: $value;
+  #{$type}: $value;
+}
+
+@mixin labelDom($align, $width, $line-height: "normal"){
+  label {
+    float: left;
+    text-align: $align;
+    line-height: $line-height +px;
+    width: $width +px ;
+  }
+  .wrap-content {
+    margin-left: 60px;
+  }
+}
