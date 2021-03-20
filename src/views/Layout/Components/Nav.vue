@@ -16,7 +16,7 @@
       <template v-for="(item, index) in routers">
         <!-- v-for 和 v-if 分开, id属性要有具体的控件 -->
         <el-submenu v-if="item.hidden" :key="item.id" :index="index + ''">
-          <template #title >
+          <template #title>
             <svg-icon :iconClass="item.meta.icon" :className="item.meta.icon" />
             <span>{{ item.meta.name }}</span>
           </template>
@@ -35,16 +35,16 @@
 
 <script>
 import { reactive, ref, computed } from "vue";
-import {useStore} from "vuex"
-import {useRouter} from "vue-router"
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 export default {
   name: "navMenu",
   setup(props) {
     //data
-    const router=useRouter()
-    const store=useStore()
+    const router = useRouter();
+    const store = useStore();
     //const routers = reactive(router.options.routes);
-    const routers=router.options.routes
+    const routers = router.options.routes;
     console.log(routers);
     //function
     const handleOpen = (key, keyPath) => {
@@ -60,9 +60,9 @@ export default {
       handleOpen,
       handleClose,
       routers,
-      isCollapse
+      isCollapse,
     };
-  }
+  },
 };
 </script>
 

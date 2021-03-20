@@ -1,4 +1,4 @@
-import {createRouter,createWebHashHistory} from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
 
 import Layout from "@/views/Layout/index"; // 可以用 @/views/Layout/  默认找index
 
@@ -9,8 +9,8 @@ const routes = [
     redirect: "login",
     hidden: false,
     meta: {
-      name: "首页"
-    }
+      name: "首页",
+    },
   },
 
   {
@@ -18,9 +18,9 @@ const routes = [
     name: "Login",
     hidden: false,
     meta: {
-      name: "登录"
+      name: "登录",
     },
-    component: () => import("../views/login/index.vue")
+    component: () => import("../views/login/index.vue"),
   },
   {
     path: "/console",
@@ -28,7 +28,7 @@ const routes = [
     redirect: "index",
     meta: {
       name: "主页",
-      icon: "console"
+      icon: "console",
     },
     hidden: true,
     component: Layout,
@@ -38,18 +38,18 @@ const routes = [
         name: "Index",
         meta: {
           name: "主页",
-          icon: "console"
+          icon: "console",
         },
-        component: () => import("../views/Console/index.vue")
-      }
-    ]
+        component: () => import("../views/Console/index.vue"),
+      },
+    ],
   },
   {
     path: "/Function",
     name: "Function",
     meta: {
       name: "工具箱",
-      icon: "info"
+      icon: "info",
     },
     hidden: true,
     component: Layout,
@@ -59,34 +59,34 @@ const routes = [
         name: "Chart",
         meta: {
           name: "房价走势",
-          icon: "info"
+          icon: "info",
         },
-        component: () => import("../views/Function/chart.vue")
+        component: () => import("../views/Function/chart.vue"),
       },
       {
         path: "/Listed",
         name: "Listed",
         meta: {
-          name: "挂牌价跟踪"
+          name: "挂牌价跟踪",
         },
-        component: () => import("../views/Function/listed.vue")
+        component: () => import("../views/Function/listed.vue"),
       },
       {
         path: "/HotHouseType",
         name: "HotHouseType",
         meta: {
-          name: "热门房型"
+          name: "热门房型",
         },
-        component: () => import("../views/Function/hotHouseType.vue")
-      }
-    ]
+        component: () => import("../views/Function/hotHouseType.vue"),
+      },
+    ],
   },
   {
     path: "/user",
     name: "User",
     meta: {
       name: "个人中心",
-      icon: "user"
+      icon: "user",
     },
     redirect: "user",
     hidden: true,
@@ -96,17 +96,17 @@ const routes = [
         path: "/userFavour",
         name: "UserFavour",
         meta: {
-          name: "关注走势"
+          name: "关注走势",
         },
-        component: () => import("../views/User/favour.vue")
-      }
-    ]
-  }
+        component: () => import("../views/User/favour.vue"),
+      },
+    ],
+  },
 ];
 
 const router = createRouter({
-  history:createWebHashHistory(),
-  routes
+  history: createWebHashHistory(),
+  routes,
 });
 
 export default router;

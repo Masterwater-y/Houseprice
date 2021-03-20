@@ -27,6 +27,4 @@ export function removeUsername() {
   return cookie.remove(usernameKey);
 }
 
-export function dateToString(date){
-
-}
+export function dateToString(date) {}

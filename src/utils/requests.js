@@ -4,12 +4,12 @@ import { ElMessage } from "element-plus";
 const BASEURL = process.env.NODE_ENV === "production" ? "" : "/api";
 const service = axios.create({
   baseURL: BASEURL,
-  timeout: 10000
+  timeout: 10000,
   //headers: { "X-Custom-Header": "foobar" }
 });
 // 添加请求拦截器
 service.interceptors.request.use(
-  function(config) {
+  function (config) {
     // 在发送请求之前做些什么
     // 请求头
     config.headers["Tokey"] = "11111";
@@ -18,7 +18,7 @@ service.interceptors.request.use(
 
     return config;
   },
-  function(error) {
+  function (error) {
     // 对请求错误做些什么
     return Promise.reject(error);
   }
@@ -26,7 +26,7 @@ service.interceptors.request.use(
 
 // 添加响应拦截器
 service.interceptors.response.use(
-  function(response) {
+  function (response) {
     // 对响应数据做点什么
     let data = response.data;
     if (data.resCode !== 0) {
@@ -36,7 +36,7 @@ service.interceptors.response.use(
       return response;
     }
   },
-  function(error) {
+  function (error) {
     // 对响应错误做点什么
     return Promise.reject(error);
   }

@@ -14,13 +14,13 @@
 
 <script>
 import { computed } from "vue";
-import {useStore} from "vuex"
-import {useRouter} from "vue-router"
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 export default {
   name: "layoutHeader",
   setup(props) {
-    const store=useStore();
-    const router=useRouter()
+    const store = useStore();
+    const router = useRouter();
     const username = computed(() => store.state.app.username);
 
     const navMenuState = () => {
@@ -28,10 +28,11 @@ export default {
       //root.$store.dispatch("app/setMenuStatus");
     };
     const exit = () => {
-      store.dispatch("app/exit")
+      store
+        .dispatch("app/exit")
         .then(() => {
           router.push({
-            name: "Login"
+            name: "Login",
           });
         })
         .catch(() => {});
@@ -39,9 +40,9 @@ export default {
     return {
       navMenuState,
       username,
-      exit
+      exit,
     };
-  }
+  },
 };
 </script>
 

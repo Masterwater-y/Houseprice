@@ -1,12 +1,10 @@
 <template>
-  <div>
-    Consoleadkfhajdfhajdkf dafadfa
-  </div>
+  <div>Consoleadkfhajdfhajdkf dafadfa</div>
 </template>
 
 <script>
 export default {
-  name: "console"
+  name: "console",
 };
 </script>
 

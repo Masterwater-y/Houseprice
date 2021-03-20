@@ -6,20 +6,20 @@
 </template>
 
 <script>
-import { reactive, ref, computed } from "vue"
+import { reactive, ref, computed } from "vue";
 export default {
   name: "svg-icon",
   props: {
     iconClass: {
       type: String,
       required: true,
-      default: "" // 如果type是对象类型要用函数赋值 如tyoe=Array  default=()=>[]
+      default: "", // 如果type是对象类型要用函数赋值 如tyoe=Array  default=()=>[]
     },
     className: {
       //方便统一做CSS
       type: String,
-      default: ""
-    }
+      default: "",
+    },
   },
   setup(props) {
     const msg = ref("Test");
@@ -35,9 +35,9 @@ export default {
     return {
       msg,
       iconName,
-      svgClass
+      svgClass,
     };
-  }
+  },
 };
 </script>
 

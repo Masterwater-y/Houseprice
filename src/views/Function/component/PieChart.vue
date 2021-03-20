@@ -1,5 +1,9 @@
 <template>
-  <div :class="className" ref="asd" :style="{ width: width, height: '400px' }"></div>
+  <div
+    :class="className"
+    ref="asd"
+    :style="{ width: width, height: '400px' }"
+  ></div>
 </template>
 
 <script>
@@ -10,16 +14,16 @@ export default {
   props: {
     className: {
       type: String,
-      default: "chart"
+      default: "chart",
     },
     width: {
       type: String,
-      default: "100%"
-    }
+      default: "100%",
+    },
   },
   data() {
     return {
-      chart: null
+      chart: null,
     };
   },
   beforeDestroy() {
@@ -31,17 +35,17 @@ export default {
   },
   methods: {
     initChart(radius, pieDataName, pieData) {
-      this.chart = echarts.init(this.$refs['asd'], "macarons");
+      this.chart = echarts.init(this.$refs["asd"], "macarons");
       var option = {
         tooltip: {
           trigger: "item",
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
+          formatter: "{a} <br/>{b} : {c} ({d}%)",
         },
         legend: {
           orient: "vertical",
           right: 20,
           top: 80,
-          data: pieDataName
+          data: pieDataName,
         },
         series: [
           {
@@ -54,14 +58,14 @@ export default {
               emphasis: {
                 shadowBlur: 10,
                 shadowOffsetX: 0,
-                shadowColor: "rgba(0, 0, 0, 0.5)"
-              }
-            }
-          }
-        ]
+                shadowColor: "rgba(0, 0, 0, 0.5)",
+              },
+            },
+          },
+        ],
       };
       this.chart.setOption(option);
-    }
-  }
+    },
+  },
 };
 </script>

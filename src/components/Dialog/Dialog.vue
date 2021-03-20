@@ -4,7 +4,7 @@
     width="30%"
     v-model="data.dialogVisible"
     @close="closeDialog"
->
+  >
     <span>{{ data.msg }}</span>
     <template #footer>
       <span class="dialog-footer">
@@ -16,44 +16,40 @@
 </template>
 
 <script>
-import {reactive} from "vue"
+import { reactive } from "vue";
 export default {
   name: "Dialog",
-  emits:['operation','updateDialogVisible'],
-  props:{
-    msg:{
-      type:String,
-      default:''
+  emits: ["operation", "updateDialogVisible"],
+  props: {
+    msg: {
+      type: String,
+      default: "",
     },
-    dialogVisible:{
-      type:Boolean,
+    dialogVisible: {
+      type: Boolean,
       default: false,
-    }
+    },
   },
-  setup(props,{emit}){
-    const data=reactive({
+  setup(props, { emit }) {
+    const data = reactive({
       dialogVisible: true,
-      msg:props.msg
-    })
-    const clickTrue=()=>{
-      closeDialog()
-      emit("operation")
-    }
-    const closeDialog=()=>{
+      msg: props.msg,
+    });
+    const clickTrue = () => {
+      closeDialog();
+      emit("operation");
+    };
+    const closeDialog = () => {
+      emit("updateDialogVisible");
+    };
 
-      emit("updateDialogVisible")
-    }
-
-
-    return{
+    return {
       data,
       clickTrue,
-      closeDialog
-    }
-  }
-}
+      closeDialog,
+    };
+  },
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

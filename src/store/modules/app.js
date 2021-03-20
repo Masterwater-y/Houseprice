@@ -6,7 +6,7 @@ import {
   getUsername,
   getToken,
   removeUsername,
-  removeToken
+  removeToken,
 } from "@/utils/app";
 
 const app = {
@@ -18,13 +18,13 @@ const app = {
         ? cookie.get("iscollapse") === "boolean"
         : false, //json.parse将字符串转换为对象
     token: getToken() || "",
-    username: getUsername() || ""
+    username: getUsername() || "",
     //isCollapse: JSON.parse(sessionStorage.getItem('isCollapse')) || false //左边如果取不到就默认取false
   },
   getters: {
     //调用： root.$store.getters.count
-    isCollapse: state => state.isCollapse,
-    username: state => state.username
+    isCollapse: (state) => state.isCollapse,
+    username: (state) => state.username,
   },
   mutations: {
     SET_COLLAPSE(state) {
@@ -41,7 +41,7 @@ const app = {
     SET_COUNT(state, value) {
       //调用： root.$store.commit('SET_COUNT',200)
       state.count = value;
-    }
+    },
   },
   actions: {
     setMenuStatus(content, data) {
@@ -52,16 +52,16 @@ const app = {
       return new Promise((resolve, reject) => {
         //接口放在这里
         Login(requestData)
-          .then(response => {
+          .then((response) => {
             let res = response.data;
-            console.log(res)
+            console.log(res);
             content.commit("SET_TOKEN", res.token);
             content.commit("SET_USERNAME", res.username);
             setToken(res.token);
             setUsername(res.username);
             resolve();
           })
-          .catch(error => {
+          .catch((error) => {
             reject();
           });
       });
@@ -72,8 +72,8 @@ const app = {
         removeToken();
         resolve();
       });
-    }
-  }
+    },
+  },
 };
 
 export default app;

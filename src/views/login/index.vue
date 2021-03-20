@@ -20,7 +20,7 @@
         class="login-form"
         size="medium"
       >
- <!--ref不能和model重名 -->
+        <!--ref不能和model重名 -->
         <el-form-item prop="username">
           <label>邮箱</label>
           <el-input
@@ -32,7 +32,6 @@
         <el-form-item prop="password">
           <label>密码</label>
           <el-input
-
             type="password"
             v-model="ruleForm.password"
             autocomplete="off"
@@ -41,7 +40,6 @@
         <el-form-item prop="passwords" v-if="model == 'register'">
           <label>重复密码</label>
           <el-input
-
             type="password"
             v-model="ruleForm.passwords"
             autocomplete="off"
@@ -51,7 +49,7 @@
           <label>验证码</label>
           <el-row :gutter="10">
             <el-col :span="15">
-              <el-input  v-model="ruleForm.checkcode"></el-input>
+              <el-input v-model="ruleForm.checkcode"></el-input>
             </el-col>
             <el-col :span="9">
               <el-button
@@ -81,20 +79,20 @@
 <script>
 import { stripscript, validateEmail, validatePwd } from "@/utils/validate";
 import { reactive, ref, onMounted } from "vue";
-import {useStore} from "vuex"
-import {useRouter} from "vue-router"
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 import { GetSms, Register } from "@/api/login";
 import sha1 from "js-sha1";
-import {ElMessage} from "element-plus"
+import { ElMessage } from "element-plus";
 
 export default {
   name: "login",
   //context解构
   setup(props, content) {
-    console.log(content)
+    console.log(content);
     const menuTab = reactive([
       { txt: "登录", current: true, type: "login" },
-      { txt: "注册", current: false, type: "register" }
+      { txt: "注册", current: false, type: "register" },
     ]);
     const model = ref("login");
     //登录按钮禁用状态
@@ -102,7 +100,7 @@ export default {
     //获取验证码禁用状态
     const codeButtonStatus = reactive({
       status: false,
-      text: "获取验证码"
+      text: "获取验证码",
     });
     //倒计时
     const timer = ref(null);
@@ -110,17 +108,17 @@ export default {
     const ruleForm = reactive({
       username: "",
       password: "",
-      checkcode:"",
-      passwords: ""
+      checkcode: "",
+      passwords: "",
     });
-    const ruleForms=ref(null)
-    const router=useRouter()
-    const store= useStore()
+    const ruleForms = ref(null);
+    const router = useRouter();
+    const store = useStore();
     const rules = reactive({
       username: [{ validator: checkusername, trigger: "blur" }],
       password: [{ validator: checkpwd, trigger: "blur" }],
       passwords: [{ validator: checkpwds, trigger: "blur" }],
-      checkcode: [{ validator: checkcode, trigger: "blur" }]
+      checkcode: [{ validator: checkcode, trigger: "blur" }],
     });
     let checkcode = (rule, value, callback) => {
       if (!value) {
@@ -160,8 +158,8 @@ export default {
     /*
      *声明函数****************************************************************************
      */
-    const ToggleMenu = data => {
-      menuTab.forEach(elem => {
+    const ToggleMenu = (data) => {
+      menuTab.forEach((elem) => {
         elem.current = false;
       });
       data.current = true;
@@ -171,11 +169,10 @@ export default {
     };
 
     //表单提交
-    const submitForm = formName => {
+    const submitForm = (formName) => {
       //context.refs[formName].validate((valid) => {
 
-      formName.validate(valid => {
-
+      formName.validate((valid) => {
         if (valid) {
           model.value === "login" ? login() : register();
         } else {
@@ -190,20 +187,21 @@ export default {
         username: ruleForm.username,
         password: sha1(ruleForm.password),
         code: ruleForm.checkcode,
-        module: "login"
+        module: "login",
       };
-      store.dispatch("app/login", requestData)
-        .then(response => {
+      store
+        .dispatch("app/login", requestData)
+        .then((response) => {
           ElMessage.success({
             message: "登录成功",
-            type: "success"
+            type: "success",
           });
           router.push({
             name: "Console",
-            params: {}
+            params: {},
           });
         })
-        .catch(error => {});
+        .catch((error) => {});
     };
     //
     const register = () => {
@@ -211,20 +209,20 @@ export default {
         username: ruleForm.username,
         password: sha1(ruleForm.password),
         code: ruleForm.checkcode,
-        module: "register"
+        module: "register",
       };
       Register(requestData)
-        .then(response => {
+        .then((response) => {
           ElMessage.success({
             message: "注册成功",
-            type: "success"
+            type: "success",
           });
           ToggleMenu(menuTab[0]);
         })
-        .catch(error => {});
+        .catch((error) => {});
     };
     //倒计时
-    const countDown = number => {
+    const countDown = (number) => {
       //setTimeout 执行一次
       //setInterval 一直执行
       // 60 和 0 没显示
@@ -254,7 +252,7 @@ export default {
     const getSms = () => {
       let data = {
         username: ruleForm.username,
-        module: model
+        module: model,
       };
       //if (ruleForm.username == "") {
       //   root.$message.error("邮箱不能为空");
@@ -268,17 +266,17 @@ export default {
       codeButtonStatus.text = "发送中";
       setTimeout(() => {
         GetSms(data)
-          .then(response => {
+          .then((response) => {
             let data = response.data;
             let mes = data.message;
             ElMessage.success({
               message: mes,
-              type: "success"
+              type: "success",
             });
             loginButtonStatus.value = false;
             countDown(5);
           })
-          .catch(error => {
+          .catch((error) => {
             console.log(error);
           });
       }, 2000);
@@ -297,11 +295,11 @@ export default {
       loginButtonStatus,
       codeButtonStatus,
       rules,
-      ruleForms
+      ruleForms,
     };
   },
   props: {},
-  watch: {}
+  watch: {},
 };
 </script>
 

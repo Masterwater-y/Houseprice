@@ -7,18 +7,17 @@
 </template>
 
 <script>
-
 import { ref, reactive } from "vue";
 require("echarts/theme/macarons"); // echarts 主题
-import * as echarts from 'echarts'
+import * as echarts from "echarts";
 export default {
   name: "LineChart",
   setup(props) {
     const item = reactive({
-      chart: null
+      chart: null,
     });
-    const Linechart=ref(null)
-    const initChart = data => {
+    const Linechart = ref(null);
+    const initChart = (data) => {
       let dateList = data.dateList;
       let dataList = data.dataList;
       let legendList = [];
@@ -29,7 +28,7 @@ export default {
         seriesData.push({
           name: item,
           data: dataList[item],
-          type: "line"
+          type: "line",
         });
       }
 
@@ -37,13 +36,13 @@ export default {
       let option = {
         xAxis: {
           type: "category",
-          data: dateList
+          data: dateList,
         },
         yAxis: {
-          type: "value"
+          type: "value",
         },
         legend: {
-          data: legendList
+          data: legendList,
         },
         series: seriesData,
         title: {
@@ -52,31 +51,31 @@ export default {
             fontStyle: "normal",
             color: "black",
             fontWeight: "bolder",
-            fontSize: 32
+            fontSize: 32,
           },
-          textAlign: "auto"
+          textAlign: "auto",
         },
         tooltip: {
-          trigger: "axis"
-        }
+          trigger: "axis",
+        },
       };
       item.chart.setOption(option);
     };
     return {
       initChart,
-      Linechart
+      Linechart,
     };
   },
   props: {
     className: {
       type: String,
-      default: "chart"
+      default: "chart",
     },
     width: {
       type: String,
-      default: "100%"
-    }
-  }
+      default: "100%",
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

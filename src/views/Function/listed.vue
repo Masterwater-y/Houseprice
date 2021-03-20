@@ -1,13 +1,15 @@
 <template>
   <div>
     <div class="main-filter">
-
-
       <div class="period">
         <h3>周期</h3>
-        <el-select v-model="data.period_type" placeholder="请选择" @change="getListedData">
+        <el-select
+          v-model="data.period_type"
+          placeholder="请选择"
+          @change="getListedData"
+        >
           <el-option
-            v-for="(item,index) in data.period_options"
+            v-for="(item, index) in data.period_options"
             :key="index"
             :label="item.label"
             :value="item.value"
@@ -19,9 +21,9 @@
         <h3>小区</h3>
         <el-checkbox-group v-model="data.block_box_group" size="mini">
           <el-checkbox-button
-              v-for="items in data.blockOptions"
-              :label="items.blockId"
-              :key="items.blockId"
+            v-for="items in data.blockOptions"
+            :label="items.blockId"
+            :key="items.blockId"
             >{{ items.blockname }}</el-checkbox-button
           >
         </el-checkbox-group>
@@ -62,9 +64,13 @@
         <span class="arrow down"></span>
       </div>
       <div class="filter-more" v-if="data.filter_more_flag">
-        <div class="toward" >
+        <div class="toward">
           <h3>朝向</h3>
-          <el-checkbox-group v-model="data.toward_box_group" size="mini" @change="getListedData">
+          <el-checkbox-group
+            v-model="data.toward_box_group"
+            size="mini"
+            @change="getListedData"
+          >
             <el-checkbox-button
               v-for="city in data.towardOptions"
               :label="city"
@@ -75,7 +81,11 @@
         </div>
         <div class="floor toward">
           <h3>楼层</h3>
-          <el-checkbox-group v-model="data.floor_box_group" size="mini" @change="getListedData">
+          <el-checkbox-group
+            v-model="data.floor_box_group"
+            size="mini"
+            @change="getListedData"
+          >
             <el-checkbox-button
               v-for="city in data.floorOptions"
               :label="city"
@@ -90,7 +100,14 @@
           ~
           <el-input v-model="data.area_input_max"></el-input>
           平方米
-          <el-button class="area-btn" type="info" size="mini" @click="getChartData"> 确定</el-button>
+          <el-button
+            class="area-btn"
+            type="info"
+            size="mini"
+            @click="getChartData"
+          >
+            确定</el-button
+          >
         </div>
         <div class="more" @click="click_more">
           更多选项
@@ -105,24 +122,20 @@
 </template>
 
 <script>
-import { reactive, ref, computed, onMounted,watchEffect } from "vue";
+import { reactive, ref, computed, onMounted, watchEffect } from "vue";
 
-import {ElMessage} from 'element-plus'
-import {
-  GetListedBlock,
-
-  GetListedData
-} from "@/api/chart";
+import { ElMessage } from "element-plus";
+import { GetListedBlock, GetListedData } from "@/api/chart";
 import LineChart from "@/views/Function/component/LineChart";
 export default {
   name: "Listed",
   components: {
-    LineChart
+    LineChart,
   },
   setup(props) {
     const data = reactive({
       filter_more_flag: false,
-      date_min_limit:new Date('2021-02-28'),
+      date_min_limit: new Date("2021-02-28"),
       area_input_min: "0",
       area_input_max: "999",
       period_type: "week",
@@ -132,7 +145,7 @@ export default {
       city_value: "",
       town_value: "",
       block_box_group: [],
-      groupData:[],
+      groupData: [],
       toward_box_group: [],
       floor_box_group: [],
       blockOptions: [],
@@ -141,25 +154,24 @@ export default {
       period_options: [
         {
           value: "month",
-          label: "月"
+          label: "月",
         },
         {
           value: "week",
-          label: "周"
-        }
+          label: "周",
+        },
       ],
 
       chart_data: {
         dateList: ["2019-01-07", "2019-01-14", "2019-01-21"],
         dataList: {
           广弘天琪: [12312, 23232, 33322],
-          御花苑: [22312, 24232, 30022]
-        }
-      }
+          御花苑: [22312, 24232, 30022],
+        },
+      },
     });
 
-
-    const echartsRef=ref(null)
+    const echartsRef = ref(null);
     const time_input_placeholder = computed(() => {
       if (data.period_type === "month") {
         return "选择月";
@@ -178,29 +190,24 @@ export default {
       }
     });
 
-
-
     const getListedBlock = () => {
-      GetListedBlock().then(response=>{
-
-        data.blockOptions = response.data.data;
-
-      }).catch(error=>{
-
-      })
+      GetListedBlock()
+        .then((response) => {
+          data.blockOptions = response.data.data;
+        })
+        .catch((error) => {});
     };
 
     const transName = (block) => {
-
-
-          let newData=[]
-          for (let item of block){
-            console.log('here:')
-            console.log(data.blockOptions.filter(val => (val.blockId === item))[0])
-            newData.push(data.blockOptions.filter(val => (val.blockId === item))[0].blockname)
-          }
-          return newData;
-
+      let newData = [];
+      for (let item of block) {
+        console.log("here:");
+        console.log(data.blockOptions.filter((val) => val.blockId === item)[0]);
+        newData.push(
+          data.blockOptions.filter((val) => val.blockId === item)[0].blockname
+        );
+      }
+      return newData;
     };
 
     const getListedData = () => {
@@ -214,26 +221,25 @@ export default {
         end_date: data.time_end_value,
         period: data.period_type,
         index_type: data.index_value,
-        toward_list:data.toward_box_group,
-        floor_list:data.floor_box_group,
-        area_min:data.area_input_min,
-        area_max:data.area_input_max,
-        name: transName(data.block_box_group)
+        toward_list: data.toward_box_group,
+        floor_list: data.floor_box_group,
+        area_min: data.area_input_min,
+        area_max: data.area_input_max,
+        name: transName(data.block_box_group),
       };
       GetListedData(requestData)
-        .then(response => {
+        .then((response) => {
           data.chart_data = response.data.data;
           echartsRef.value.initChart(data.chart_data);
         })
-        .catch(error => {});
+        .catch((error) => {});
     };
 
     const validateChart = () => {
-
       if (!(data.time_start_value && data.time_end_value)) {
         ElMessage.error({
           type: "error",
-          message: "时间段不能为空"
+          message: "时间段不能为空",
         });
         return false;
       }
@@ -241,39 +247,39 @@ export default {
       if (!data.index_value) {
         ElMessage.error({
           type: "error",
-          message: "房价指标不能为空"
+          message: "房价指标不能为空",
         });
         return false;
       }
 
-      if (data.time_start_value>data.time_end_value){
+      if (data.time_start_value > data.time_end_value) {
         ElMessage.error({
           type: "error",
-          message: "时间范围有误"
+          message: "时间范围有误",
         });
-        return false
+        return false;
       }
-      if (data.time_start_value<data.date_min_limit){
+      if (data.time_start_value < data.date_min_limit) {
         ElMessage.error({
           type: "error",
-          message: "暂无"+data.date_min_limit.toLocaleDateString()+'前挂牌价数据'
+          message:
+            "暂无" + data.date_min_limit.toLocaleDateString() + "前挂牌价数据",
         });
-        return false
+        return false;
       }
 
-
-      if (data.area_input_min>data.area_input_max){
+      if (data.area_input_min > data.area_input_max) {
         ElMessage.error({
           type: "error",
-          message: "面积范围有误"
+          message: "面积范围有误",
         });
-        return false
+        return false;
       }
       return true;
     };
 
     onMounted(() => {
-      getListedBlock()
+      getListedBlock();
     });
     const click_more = () => {
       data.filter_more_flag = !data.filter_more_flag;
@@ -286,9 +292,8 @@ export default {
       time_input_format,
       echartsRef,
       getListedData,
-
     };
-  }
+  },
 };
 </script>
 
@@ -332,10 +337,9 @@ export default {
       margin: 0 20px;
       width: 150px;
     }
-    h3{
+    h3 {
       margin-right: 20px;
     }
-
   }
 
   .index {

@@ -68,7 +68,13 @@
       </div>
     </div>
     <div class="table-wrap">
-      <el-table :data="data.tableData" border height="500" style="width: 100%" v-loading="data.loading">
+      <el-table
+        :data="data.tableData"
+        border
+        height="500"
+        style="width: 100%"
+        v-loading="data.loading"
+      >
         <el-table-column type="index" label="排名" width="100">
         </el-table-column>
         <el-table-column
@@ -155,13 +161,13 @@ export default {
         dateList: ["2019-01-07", "2019-01-14", "2019-01-21"],
         dataList: {
           广弘天琪: [12312, 23232, 33322],
-          御花苑: [22312, 24232, 30022]
-        }
+          御花苑: [22312, 24232, 30022],
+        },
       },
       dialogVisible: false,
       dialogMsg: "",
       tableData: [],
-      loading:false,
+      loading: false,
     });
     const route = useRoute();
     const store = useStore();
@@ -175,22 +181,22 @@ export default {
     });
     const getCityList = () => {
       GetCityList({})
-        .then(response => {
+        .then((response) => {
           data.city_options = response.data.data;
         })
-        .catch(error => {});
+        .catch((error) => {});
     };
 
-    const getTownList = val => {
+    const getTownList = (val) => {
       data.town_value = "";
       GetTownList({ city_id: val })
-        .then(response => {
+        .then((response) => {
           data.town_options = response.data.data;
         })
-        .catch(error => {});
+        .catch((error) => {});
     };
 
-    const getBlockList = val => {
+    const getBlockList = (val) => {
       data.blockOptions = [];
       data.block_box_group = [];
       if (val == "") {
@@ -198,10 +204,10 @@ export default {
       }
 
       GetBlockList({ town_id: val })
-        .then(response => {
+        .then((response) => {
           data.blockOptions = response.data.data;
         })
-        .catch(error => {});
+        .catch((error) => {});
     };
 
     const hotTypeSortCmp = (a, b) => b.dealnum - a.dealnum;
@@ -215,25 +221,24 @@ export default {
         town_id: data.town_value,
         block_id: data.block_box_group[0] || "",
         s_date: data.time_start_value,
-        e_date: data.time_end_value
+        e_date: data.time_end_value,
       };
-      data.loading=true
+      data.loading = true;
       GetHotType(requestData)
-        .then(response => {
+        .then((response) => {
           let res = response.data.data;
           res.sort(hotTypeSortCmp);
           data.tableData = res;
-          data.loading=false
-
+          data.loading = false;
         })
-        .catch(error => {});
+        .catch((error) => {});
     };
 
     const validateChart = () => {
       if (!(data.time_start_value && data.time_end_value)) {
         ElMessage.error({
           type: "error",
-          message: "时间段不能为空"
+          message: "时间段不能为空",
         });
         return false;
       }
@@ -241,7 +246,7 @@ export default {
       if (data.time_start_value > data.time_end_value) {
         ElMessage.error({
           type: "error",
-          message: "时间范围有误"
+          message: "时间范围有误",
         });
         return false;
       }
@@ -264,9 +269,9 @@ export default {
 
       getTownList,
       getBlockList,
-      getHotType
+      getHotType,
     };
-  }
+  },
 };
 </script>
 

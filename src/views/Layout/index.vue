@@ -11,17 +11,17 @@ import LayoutHeader from "./Components/Header";
 import LayoutMain from "./Components/Main";
 import LayoutNav from "./Components/Nav";
 import { reactive, ref, computed } from "vue";
-import {useStore} from "vuex"
+import { useStore } from "vuex";
 export default {
   name: "layout",
   components: { LayoutHeader, LayoutMain, LayoutNav },
   setup(props) {
-    const store=useStore()
+    const store = useStore();
     const menuStatus = computed(() => store.state.app.isCollapse);
     return {
-      menuStatus
+      menuStatus,
     };
-  }
+  },
 };
 </script>
 

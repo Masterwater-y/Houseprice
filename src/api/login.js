@@ -6,7 +6,7 @@ export function GetSms(data) {
   return service.request({
     method: "post",
     url: "/getSms/",
-    data //data:data同名可以直接写 data
+    data, //data:data同名可以直接写 data
   });
 }
 
@@ -22,7 +22,7 @@ export function Login(data) {
   return service.request({
     method: "post",
     url: "/login/",
-    data //data:data同名可以直接写 data
+    data, //data:data同名可以直接写 data
   });
 }
 
@@ -33,6 +33,6 @@ export function Register(data) {
   return service.request({
     method: "post",
     url: "/register/",
-    data //data:data同名可以直接写 data
+    data, //data:data同名可以直接写 data
   });
 }

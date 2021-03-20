@@ -115,35 +115,35 @@ export default {
     return {
       menuTab: [
         { txt: "登录", current: true, type: "login" },
-        { txt: "注册", current: false, type: "register" }
+        { txt: "注册", current: false, type: "register" },
       ],
       model: "login",
       ruleForm: {
         username: "",
         password: "",
         checkcode: "",
-        passwords: ""
+        passwords: "",
       },
       rules: {
         username: [{ validator: checkusername, trigger: "blur" }],
         password: [{ validator: checkpwd, trigger: "blur" }],
         passwords: [{ validator: checkpwds, trigger: "blur" }],
-        checkcode: [{ validator: checkcode, trigger: "blur" }]
-      }
+        checkcode: [{ validator: checkcode, trigger: "blur" }],
+      },
     };
   },
   created() {},
   mounted() {},
   methods: {
     ToggleMenu(data) {
-      this.menuTab.forEach(elem => {
+      this.menuTab.forEach((elem) => {
         elem.current = false;
       });
       data.current = true;
       this.model = data.type;
     },
     submitForm(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           alert("submit!");
         } else {
@@ -151,10 +151,10 @@ export default {
           return false;
         }
       });
-    }
+    },
   },
   props: {},
-  watch: {}
+  watch: {},
 };
 </script>
 
