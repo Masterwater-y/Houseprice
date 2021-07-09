@@ -65,7 +65,7 @@
         <h3>时间范围</h3>
         <el-date-picker
           v-model="data.time_start_value"
-          :type="data.period_type"
+          type="date"
           :format="time_input_format"
           :placeholder="time_input_placeholder"
           @change="getChartData"
@@ -74,7 +74,7 @@
         ~
         <el-date-picker
           v-model="data.time_end_value"
-          :type="data.period_type"
+          type="date"
           :format="time_input_format"
           :placeholder="time_input_placeholder"
           @change="getChartData"
@@ -83,18 +83,26 @@
       </div>
       <div class="index">
         <h3>房价指标</h3>
-        <el-radio-group v-model="data.index_value" @change="getChartData">
-          <el-radio-button
+        <el-checkbox-group
+          v-model="data.index_box_group"
+          @change="getChartData"
+        >
+          <el-checkbox-button
             v-for="item in data.indexOptions"
             :label="item.label"
-            >{{ item.name }}</el-radio-button
+            >{{ item.name }}</el-checkbox-button
           >
-        </el-radio-group>
+        </el-checkbox-group>
+      </div>
+      <div class="favorite">
+        <el-button
+          type="primary"
+          @click="clickAddFavour"
+          v-if="!data.filter_more_flag"
+          >收藏</el-button
+        >
       </div>
       <div class="more" @click="click_more" v-if="!data.filter_more_flag">
-        <div class="favorite">
-          <el-button type="primary" @click="clickAddFavour">收藏</el-button>
-        </div>
         更多选项
         <span class="arrow down"></span>
       </div>
@@ -144,18 +152,19 @@
             确定</el-button
           >
         </div>
+        <div class="favorite">
+          <el-button type="primary" @click="clickAddFavour">收藏</el-button>
+        </div>
         <div class="more" @click="click_more">
-          <div class="favorite">
-            <el-button type="primary" @click="clickAddFavour">收藏</el-button>
-          </div>
           更多选项
           <span class="arrow up"></span>
         </div>
       </div>
     </div>
-    <div class="main-chart">
+    <div class="main-chart" v-loading="data.loading">
       <LineChart ref="echartsRef"></LineChart>
     </div>
+
     <DialogVue
       v-if="data.dialogVisible"
       @operation="addFavour"
@@ -175,7 +184,7 @@ import {
   GetBlockList,
   GetChartData,
 } from "@/api/chart";
-import { getToken } from "@/utils/app";
+import { getToken, stamp2date } from "@/utils/app";
 import { useRoute } from "vue-router";
 import { useStore } from "vuex";
 import { AddFavour } from "@/api/favour";
@@ -192,14 +201,15 @@ export default {
       filter_more_flag: false,
       area_input_min: "0",
       area_input_max: "999",
-      period_type: "week",
-      time_start_value: "",
+      period_type: "month",
+      time_start_value: "2016-01-01",
       time_end_value: "",
       index_value: "",
       block_value: "",
       city_value: "",
       town_value: "",
       block_box_group: [],
+      index_box_group: ["x102"],
       toward_box_group: [],
       floor_box_group: [],
       blockOptions: [],
@@ -243,21 +253,14 @@ export default {
         },
       ],
       city_options: [],
-      town_options: [
-        {
-          town_id: "9001",
-          town_name: "珠江新城",
-        },
-      ],
+      town_options: [],
       chart_data: {
-        dateList: ["2019-01-07", "2019-01-14", "2019-01-21"],
-        dataList: {
-          广弘天琪: [12312, 23232, 33322],
-          御花苑: [22312, 24232, 30022],
-        },
+        dateList: [],
+        dataList: {},
       },
       dialogVisible: false,
       dialogMsg: "",
+      loading: false,
     });
     const route = useRoute();
     const store = useStore();
@@ -273,7 +276,7 @@ export default {
 
     const time_input_format = computed(() => {
       if (data.period_type === "month") {
-        return "";
+        return "gggg 第 MM 月";
       }
       if (data.period_type === "week") {
         return "gggg 第 ww 周";
@@ -283,12 +286,23 @@ export default {
       GetCityList({})
         .then((response) => {
           data.city_options = response.data.data;
+          let res = store.getters["chart/factor"];
+          res = JSON.parse(res);
+          if (res === null) {
+
+            getChartData()
+            echartsRef.value.initChart(data.chart_data);
+          }
         })
         .catch((error) => {});
     };
 
     const getTownList = (val) => {
       data.town_value = "";
+      if (val == "") {
+        getChartData();
+        return;
+      }
       GetTownList({ city_id: val })
         .then((response) => {
           data.town_options = response.data.data;
@@ -323,7 +337,7 @@ export default {
       } else {
         type = "city";
       }
-      console.log(type);
+
       if (type === "city") {
         let newData = data.city_options.filter(
           (val) => val.city_id === city
@@ -339,7 +353,6 @@ export default {
       if (type == "block") {
         let newData = [];
         for (let item of block) {
-          console.log("here:");
           console.log(
             data.blockOptions.filter((val) => val.block_id === item)[0]
           );
@@ -363,15 +376,18 @@ export default {
         start_date: data.time_start_value,
         end_date: data.time_end_value,
         period: data.period_type,
-        index_type: data.index_value,
+        index_type: data.index_box_group,
         toward_list: data.toward_box_group,
         floor_list: data.floor_box_group,
         area_min: data.area_input_min,
         area_max: data.area_input_max,
         name: transName(data.city_value, data.town_value, data.block_box_group),
       };
+      data.loading = true;
+
       GetChartData(requestData)
         .then((response) => {
+          data.loading = false;
           data.chart_data = response.data.data;
           echartsRef.value.initChart(data.chart_data);
         })
@@ -386,7 +402,7 @@ export default {
         });
         return false;
       }
-      if (!data.index_value) {
+      if (!data.index_box_group) {
         ElMessage.error({
           type: "error",
           message: "房价指标不能为空",
@@ -413,21 +429,15 @@ export default {
     };
 
     const clickAddFavour = () => {
-      console.log("clickAdd");
-      console.log(data.dialogVisible);
       if (!validateChart()) {
-        ElMessage.error({
-          type: "error",
-          message: "收藏失败，条件不足，请继续选择",
-        });
-        return;
+        return false;
       }
       if (!getToken()) {
         ElMessage.error({
           type: "error",
           message: "收藏失败，未登录",
         });
-        return;
+        return false;
       }
       data.dialogVisible = true;
       data.dialogMsg = "确认收藏当前条件下的房价走势？";
@@ -458,7 +468,7 @@ export default {
       let res = store.getters["chart/factor"];
       res = JSON.parse(res);
       console.log(res);
-      if (res == null) {
+      if (res === null) {
         return;
       }
 
@@ -475,11 +485,13 @@ export default {
       if (data.town_value) {
         getBlockList(data.town_value);
       }
+
     };
 
     onMounted(() => {
       getCityList();
       loadStorage();
+      data.time_end_value = stamp2date(new Date());
     });
     const click_more = () => {
       data.filter_more_flag = !data.filter_more_flag;
@@ -594,10 +606,12 @@ export default {
     text-align: center;
     color: #a7a8a9;
     cursor: pointer;
-    .favorite {
-      margin-bottom: 10px;
-    }
   }
+  .favorite {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
   .arrow {
     border: solid #a7a8a9;
     border-width: 0 1px 1px 0;

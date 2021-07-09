@@ -99,7 +99,7 @@
           prop="blockname"
           align="center"
           label="小区"
-          width="120"
+
         >
         </el-table-column>
         <el-table-column prop="floor" align="center" label="楼层" width="100">
@@ -113,12 +113,19 @@
           width="100"
         >
         </el-table-column>
-        <el-table-column prop="price" align="center" label="单价" width="100">
+        <el-table-column prop="price" align="center" label="单价(元/平米)" width="150">
         </el-table-column>
         <el-table-column
           prop="dealnum"
           align="center"
           label="成交量"
+          width="100"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="dealcycle"
+          align="center"
+          label="成交周期/天"
           width="100"
         >
         </el-table-column>
@@ -143,7 +150,7 @@ export default {
   setup(props) {
     const data = reactive({
       filter_more_flag: false,
-      time_start_value: "",
+      time_start_value: "2021-03-11",
       time_end_value: "",
       block_value: "",
       city_value: "",
@@ -227,9 +234,11 @@ export default {
       GetHotType(requestData)
         .then((response) => {
           let res = response.data.data;
+
           res.sort(hotTypeSortCmp);
           data.tableData = res;
           data.loading = false;
+
         })
         .catch((error) => {});
     };

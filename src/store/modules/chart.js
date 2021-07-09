@@ -1,8 +1,17 @@
 const state = {
   factor: "" || sessionStorage.getItem("factor"),
+  indexIdtoName: {
+    x100: "最高价",
+    x101: "最低价",
+    x102: "中位数",
+    x103: "平均数",
+    x104: "众数",
+    x105: "成交量",
+  },
 };
 const getters = {
   factor: (state) => state.factor,
+  indexIdtoName: (state) => state.indexIdtoName,
 };
 const mutations = {
   UPDATE_STATE_VALUE(state, params) {

@@ -6,7 +6,7 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    redirect: "login",
+    redirect: "index",
     hidden: false,
     meta: {
       name: "首页",
@@ -64,7 +64,7 @@ const routes = [
         component: () => import("../views/Function/chart.vue"),
       },
       {
-        path: "/Listed",
+        path: "/Function/Listed",
         name: "Listed",
         meta: {
           name: "挂牌价跟踪",
@@ -72,7 +72,7 @@ const routes = [
         component: () => import("../views/Function/listed.vue"),
       },
       {
-        path: "/HotHouseType",
+        path: "/Function/HotHouseType",
         name: "HotHouseType",
         meta: {
           name: "热门房型",

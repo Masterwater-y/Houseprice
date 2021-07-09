@@ -284,7 +284,10 @@ export default {
     /*
      *
      */
-    onMounted(() => {});
+
+    onMounted(() => {
+
+    });
     return {
       menuTab,
       model,

@@ -27,4 +27,22 @@ export function removeUsername() {
   return cookie.remove(usernameKey);
 }
 
-export function dateToString(date) {}
+/**
+ * 时间戳格式化函数
+ * @param  {string} format    格式
+ * @param  {Date}    timestamp 要格式化的时间 默认为当前时间
+ * @return {string}           格式化的时间字符串
+ */
+export function stamp2date(timestamp) {
+//时间戳转换方法    date:时间戳数字
+  let YY=timestamp.getFullYear()
+  let MM=timestamp.getMonth()+1
+  if (MM<10) MM='0'+MM
+  let DD=timestamp.getDate()
+  if (DD<10) DD='0'+DD
+  console.log(YY+'-'+MM+'-'+DD)
+  return YY+'-'+MM+'-'+DD
+
+
+
+}

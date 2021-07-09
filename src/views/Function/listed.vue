@@ -32,7 +32,7 @@
         <h3>时间范围</h3>
         <el-date-picker
           v-model="data.time_start_value"
-          :type="data.period_type"
+          type="date"
           :format="time_input_format"
           :placeholder="time_input_placeholder"
           @change="getListedData"
@@ -41,7 +41,7 @@
         ~
         <el-date-picker
           v-model="data.time_end_value"
-          :type="data.period_type"
+          type="date"
           :format="time_input_format"
           :placeholder="time_input_placeholder"
           @change="getListedData"
@@ -115,7 +115,7 @@
         </div>
       </div>
     </div>
-    <div class="main-chart">
+    <div class="main-chart" v-loading="data.loading">
       <LineChart ref="echartsRef"></LineChart>
     </div>
   </div>
@@ -139,7 +139,7 @@ export default {
       area_input_min: "0",
       area_input_max: "999",
       period_type: "week",
-      time_start_value: "",
+      time_start_value: "2021-03-07 T",
       time_end_value: "",
       index_value: "",
       city_value: "",
@@ -169,6 +169,7 @@ export default {
           御花苑: [22312, 24232, 30022],
         },
       },
+      loading:false,
     });
 
     const echartsRef = ref(null);
@@ -183,7 +184,7 @@ export default {
 
     const time_input_format = computed(() => {
       if (data.period_type === "month") {
-        return "";
+        return "gggg 第 MM 月";
       }
       if (data.period_type === "week") {
         return "gggg 第 ww 周";
@@ -227,9 +228,14 @@ export default {
         area_max: data.area_input_max,
         name: transName(data.block_box_group),
       };
+      data.loading=true;
+
       GetListedData(requestData)
         .then((response) => {
+          data.loading=false;
           data.chart_data = response.data.data;
+
+          echartsRef.value.initChart(data.chart_data);
           echartsRef.value.initChart(data.chart_data);
         })
         .catch((error) => {});
