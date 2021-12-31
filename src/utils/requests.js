@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ElMessage } from "element-plus";
 
-const BASEURL = process.env.NODE_ENV === "production" ? "" : "/api";
+const BASEURL = process.env.NODE_ENV === "production" ? "/api" : "/api";
 const service = axios.create({
   baseURL: BASEURL,
   timeout: 100000,

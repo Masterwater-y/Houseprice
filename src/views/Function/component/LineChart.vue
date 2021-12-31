@@ -24,10 +24,12 @@ export default {
     const store = useStore();
     const Linechart = ref(null);
     const toolTipText = (types) => {
-      if (types == "x105") {
+      if (types === "x105") {
         return "套";
-      } else {
-        return "元/平米";
+      } else if (types=="x106") {
+        return "";
+      }else{
+        return "元/平米"
       }
     };
     const initChart = (data) => {
@@ -54,17 +56,25 @@ export default {
               incRate: (item / head - 1) * 100,
             };
           });
-
+          if (itemj=="x106"){
+            seriesData.push({
+              name: item + indexIdtoName[itemj],
+              data: newData,
+              type: "bar",
+            });
+          }
           seriesData.push({
             name: item + indexIdtoName[itemj],
             data: newData,
-
             type: "line",
           });
         }
       }
+
+      let option={}
+
       //item.chart.clear();
-      let option = {
+      option = {
         xAxis: {
           type: "category",
           data: dateList,
@@ -125,67 +135,15 @@ export default {
           },
         },
       };
-/**      item.chart = echarts.init(Linechart.value);
-      item.chart.clear();
-      let option = {
-        title:{
-            // left:20,
-            // top:10,
-            padding:[10,0,5,20],
-            textStyle:{
-                color:'yellowgreen',
-            },
-            text:'营业额统计',
-            subtext:'副标题'
-        },
-        legend: {
-            top: 30,
-            left:100
-            // padding:[100,0,10,15]
-        },
-        tooltip:{//组件提示
-            trigger:'axis',
-            axisPointer:{
-                type: 'cross'
-            }
-        },
-        dataZoom:[
-            {
-                type:'slider',//slider表示有滑动块的，inside表示内置的
-                show:true,
-                xAxisIndex:[0],
-                start:10,
-                end:35
-            }
-        ],
-        xAxis:{
-            data:['23:00-8:00','8:00-10:00','10:00-12:00','12:00-14:00','14:00-16:00','16:00-18:00','18:00-20:00','20:00-22:00']
-        },
 
-        yAxis:{},
-        series:[
-            {
-                name:'销量',
-                type: 'line',
-                data:[100, 200, 150, 99, 43.3, 85.8, 93.7]
-            },
-            {
-                name:'支付宝',
-                type: 'line',
-                data:[3.1, 258.4, 55.1, 0, 9, 50, 100,60]
-            },
-            {
-                name:'会员卡',
-                type: 'line',
-                data:[0.4, 3.2, 82.5,30, 40, 300, 15, 10]
-            }
-        ]
-    };**/
-      item.chart.setOption(option);
+      item.chart.setOption(option);//true不合并配置
     };
     onMounted(()=>{
-      item.chart = echarts.init(Linechart.value, "macarons");
-      console.log('finish onMounted')
+      if (!echarts.getInstanceByDom(Linechart.value)) item.chart = echarts.init(Linechart.value, "macarons");
+      else item.chart = echarts.getInstanceByDom(Linechart.value)
+
+
+
     })
     return {
       initChart,

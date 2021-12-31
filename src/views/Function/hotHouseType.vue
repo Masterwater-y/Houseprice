@@ -32,9 +32,7 @@
           >
           </el-option>
         </el-select>
-      </div>
-
-      <div class="block">
+      </div>      <div class="block">
         <h3>小区</h3>
         <el-checkbox-group v-model="data.block_box_group" size="mini" :max="1">
           <el-checkbox-button
@@ -98,9 +96,7 @@
         <el-table-column
           prop="blockname"
           align="center"
-          label="小区"
-
-        >
+          label="小区"        >
         </el-table-column>
         <el-table-column prop="floor" align="center" label="楼层" width="100">
         </el-table-column>
@@ -132,19 +128,13 @@
       </el-table>
     </div>
   </div>
-</template>
-
-<script>
-import { reactive, ref, computed, onMounted } from "vue";
-
-import { ElMessage } from "element-plus";
+</template><script>
+import { reactive, ref, computed, onMounted } from "vue";import { ElMessage } from "element-plus";
 import { GetCityList, GetTownList, GetBlockList } from "@/api/chart";
 import { getToken } from "@/utils/app";
 import { useRoute } from "vue-router";
 import { useStore } from "vuex";
-import { GetHotType } from "@/api/hottype";
-
-export default {
+import { GetHotType } from "@/api/hottype";export default {
   name: "hotHouseType",
   components: {},
   setup(props) {
@@ -181,9 +171,7 @@ export default {
     const echartsRef = ref(null);
     const time_input_placeholder = computed(() => {
       return "选择日期";
-    });
-
-    const time_input_format = computed(() => {
+    });    const time_input_format = computed(() => {
       return "YYYY 年 MM 月 DD 日";
     });
     const getCityList = () => {
@@ -193,7 +181,6 @@ export default {
         })
         .catch((error) => {});
     };
-
     const getTownList = (val) => {
       data.town_value = "";
       GetTownList({ city_id: val })
@@ -202,24 +189,19 @@ export default {
         })
         .catch((error) => {});
     };
-
     const getBlockList = (val) => {
       data.blockOptions = [];
       data.block_box_group = [];
       if (val == "") {
         return;
       }
-
       GetBlockList({ town_id: val })
         .then((response) => {
           data.blockOptions = response.data.data;
         })
         .catch((error) => {});
     };
-
-    const hotTypeSortCmp = (a, b) => b.dealnum - a.dealnum;
-
-    const getHotType = () => {
+    const hotTypeSortCmp = (a, b) => b.dealnum - a.dealnum;    const getHotType = () => {
       if (!validateChart()) {
         return;
       }
@@ -234,15 +216,11 @@ export default {
       GetHotType(requestData)
         .then((response) => {
           let res = response.data.data;
-
           res.sort(hotTypeSortCmp);
           data.tableData = res;
-          data.loading = false;
-
-        })
+          data.loading = false;        })
         .catch((error) => {});
     };
-
     const validateChart = () => {
       if (!(data.time_start_value && data.time_end_value)) {
         ElMessage.error({
@@ -251,7 +229,6 @@ export default {
         });
         return false;
       }
-
       if (data.time_start_value > data.time_end_value) {
         ElMessage.error({
           type: "error",
@@ -259,31 +236,25 @@ export default {
         });
         return false;
       }
-
       return true;
     };
-
     onMounted(() => {
       getCityList();
     });
     const click_more = () => {
       data.filter_more_flag = !data.filter_more_flag;
     };
-
     return {
       data,
       click_more,
       time_input_placeholder,
-      time_input_format,
-
-      getTownList,
+      time_input_format,      getTownList,
       getBlockList,
       getHotType,
     };
   },
 };
 </script>
-
 <style lang="scss" scoped>
 .confirm-btn {
   text-align: center;
@@ -323,9 +294,7 @@ export default {
     .el-radio-group {
       margin-left: 5px;
     }
-  }
-
-  .time {
+  }  .time {
     .el-date-editor {
       margin: 0 20px;
       width: 150px;
@@ -333,15 +302,11 @@ export default {
     h3 {
       margin-right: 20px;
     }
-  }
-
-  .index {
+  }  .index {
     .el-radio-group {
       margin: 0 20px;
     }
-  }
-
-  .toward {
+  }  .toward {
     margin-top: -15px;
     position: relative;
     .el-checkbox-group {
@@ -369,9 +334,7 @@ export default {
     }
     .el-input {
       width: 50px;
-      margin: 10px;
-
-      /deep/ .el-input__inner {
+      margin: 10px;      /deep/ .el-input__inner {
         padding: 0 5px;
       }
     }
@@ -391,9 +354,7 @@ export default {
     border: solid #a7a8a9;
     border-width: 0 1px 1px 0;
     display: inline-block;
-    padding: 3px;
-
-    &.down {
+    padding: 3px;    &.down {
       margin-bottom: 3px;
       transform: rotate(45deg);
       -webkit-transform: rotate(45deg);

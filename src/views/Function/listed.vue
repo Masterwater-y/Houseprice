@@ -120,11 +120,8 @@
     </div>
   </div>
 </template>
-
 <script>
-import { reactive, ref, computed, onMounted, watchEffect } from "vue";
-
-import { ElMessage } from "element-plus";
+import { reactive, ref, computed, onMounted, watchEffect } from "vue";import { ElMessage } from "element-plus";
 import { GetListedBlock, GetListedData } from "@/api/chart";
 import LineChart from "@/views/Function/component/LineChart";
 export default {
@@ -161,7 +158,6 @@ export default {
           label: "周",
         },
       ],
-
       chart_data: {
         dateList: ["2019-01-07", "2019-01-14", "2019-01-21"],
         dataList: {
@@ -171,7 +167,6 @@ export default {
       },
       loading:false,
     });
-
     const echartsRef = ref(null);
     const time_input_placeholder = computed(() => {
       if (data.period_type === "month") {
@@ -181,7 +176,6 @@ export default {
         return "选择周";
       }
     });
-
     const time_input_format = computed(() => {
       if (data.period_type === "month") {
         return "gggg 第 MM 月";
@@ -190,7 +184,6 @@ export default {
         return "gggg 第 ww 周";
       }
     });
-
     const getListedBlock = () => {
       GetListedBlock()
         .then((response) => {
@@ -198,7 +191,6 @@ export default {
         })
         .catch((error) => {});
     };
-
     const transName = (block) => {
       let newData = [];
       for (let item of block) {
@@ -210,14 +202,12 @@ export default {
       }
       return newData;
     };
-
     const getListedData = () => {
       if (!validateChart()) {
         return false;
       }
       let requestData = {
         block_list: data.block_box_group,
-
         start_date: data.time_start_value,
         end_date: data.time_end_value,
         period: data.period_type,
@@ -229,18 +219,14 @@ export default {
         name: transName(data.block_box_group),
       };
       data.loading=true;
-
       GetListedData(requestData)
         .then((response) => {
           data.loading=false;
-          data.chart_data = response.data.data;
-
-          echartsRef.value.initChart(data.chart_data);
+          data.chart_data = response.data.data;          echartsRef.value.initChart(data.chart_data);
           echartsRef.value.initChart(data.chart_data);
         })
         .catch((error) => {});
     };
-
     const validateChart = () => {
       if (!(data.time_start_value && data.time_end_value)) {
         ElMessage.error({
@@ -249,7 +235,6 @@ export default {
         });
         return false;
       }
-
       if (!data.index_value) {
         ElMessage.error({
           type: "error",
@@ -257,7 +242,6 @@ export default {
         });
         return false;
       }
-
       if (data.time_start_value > data.time_end_value) {
         ElMessage.error({
           type: "error",
@@ -272,9 +256,7 @@ export default {
             "暂无" + data.date_min_limit.toLocaleDateString() + "前挂牌价数据",
         });
         return false;
-      }
-
-      if (data.area_input_min > data.area_input_max) {
+      }      if (data.area_input_min > data.area_input_max) {
         ElMessage.error({
           type: "error",
           message: "面积范围有误",
@@ -283,14 +265,12 @@ export default {
       }
       return true;
     };
-
     onMounted(() => {
       getListedBlock();
     });
     const click_more = () => {
       data.filter_more_flag = !data.filter_more_flag;
     };
-
     return {
       data,
       click_more,
@@ -302,7 +282,6 @@ export default {
   },
 };
 </script>
-
 <style lang="scss" scoped>
 .main-filter {
   h3 {
@@ -321,9 +300,7 @@ export default {
     }
   }
   .period {
-    display: inline-block;
-
-    height: 40px;
+    display: inline-block;    height: 40px;
     margin-bottom: 10px;
     .el-select {
       margin-left: 20px;
@@ -336,9 +313,7 @@ export default {
     .el-checkbox-group {
       margin-left: 5px;
     }
-  }
-
-  .time {
+  }  .time {
     .el-date-editor {
       margin: 0 20px;
       width: 150px;
@@ -346,15 +321,11 @@ export default {
     h3 {
       margin-right: 20px;
     }
-  }
-
-  .index {
+  }  .index {
     .el-radio-group {
       margin: 0 20px;
     }
-  }
-
-  .toward {
+  }  .toward {
     margin-top: -15px;
     position: relative;
     .el-checkbox-group {
@@ -382,9 +353,7 @@ export default {
     }
     .el-input {
       width: 50px;
-      margin: 10px;
-
-      /deep/ .el-input__inner {
+      margin: 10px;      /deep/ .el-input__inner {
         padding: 0 5px;
       }
     }
@@ -401,9 +370,7 @@ export default {
     border: solid #a7a8a9;
     border-width: 0 1px 1px 0;
     display: inline-block;
-    padding: 3px;
-
-    &.down {
+    padding: 3px;    &.down {
       margin-bottom: 3px;
       transform: rotate(45deg);
       -webkit-transform: rotate(45deg);

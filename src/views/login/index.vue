@@ -1,5 +1,8 @@
 <template>
   <div id="login">
+    <div class="sfName">
+      二手房量化投资助手系统
+    </div>
     <div class="login-wrap">
       <ul class="menu_tab">
         <li
@@ -22,7 +25,7 @@
       >
         <!--ref不能和model重名 -->
         <el-form-item prop="username">
-          <label>邮箱</label>
+          <label>账号</label>
           <el-input
             type="text"
             v-model="ruleForm.username"
@@ -239,7 +242,6 @@ export default {
       }, 1000);
     };
     //清除倒计时
-
     const clearCountDown = () => {
       codeButtonStatus.status = false;
       codeButtonStatus.text = "获取验证码";
@@ -248,20 +250,11 @@ export default {
     /*
      * 获取验证码
      */
-
     const getSms = () => {
       let data = {
         username: ruleForm.username,
         module: model,
       };
-      //if (ruleForm.username == "") {
-      //   root.$message.error("邮箱不能为空");
-      //    return false;
-      //  }
-      //  if (!validateEmail(ruleForm.username)) {
-      //    root.$message.error("邮箱格式有误！！");
-      //    return false;
-      //   }
       codeButtonStatus.status = true;
       codeButtonStatus.text = "发送中";
       setTimeout(() => {
@@ -281,13 +274,6 @@ export default {
           });
       }, 2000);
     };
-    /*
-     *
-     */
-
-    onMounted(() => {
-
-    });
     return {
       menuTab,
       model,
@@ -311,6 +297,12 @@ export default {
   height: 100vh;
   background-color: #2c3e50;
 }
+.sfName{
+  font-size: 20px;
+  color: white;
+  text-align: center;
+}
+
 .login-wrap {
   width: 330px;
   margin: auto;

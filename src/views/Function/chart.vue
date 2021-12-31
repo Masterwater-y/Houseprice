@@ -164,7 +164,6 @@
     <div class="main-chart" v-loading="data.loading">
       <LineChart ref="echartsRef"></LineChart>
     </div>
-
     <DialogVue
       v-if="data.dialogVisible"
       @operation="addFavour"
@@ -173,10 +172,8 @@
     />
   </div>
 </template>
-
 <script>
 import { reactive, ref, computed, onMounted } from "vue";
-
 import { ElMessage } from "element-plus";
 import {
   GetCityList,
@@ -240,6 +237,10 @@ export default {
           label: "x105",
           name: "成交量",
         },
+        {
+          label: "x106",
+          name: "冷热指数",
+        },
       ],
       factorData: [],
       period_options: [
@@ -273,7 +274,6 @@ export default {
         return "选择周";
       }
     });
-
     const time_input_format = computed(() => {
       if (data.period_type === "month") {
         return "gggg 第 MM 月";
@@ -289,14 +289,12 @@ export default {
           let res = store.getters["chart/factor"];
           res = JSON.parse(res);
           if (res === null) {
-
             getChartData()
             echartsRef.value.initChart(data.chart_data);
           }
         })
         .catch((error) => {});
     };
-
     const getTownList = (val) => {
       data.town_value = "";
       if (val == "") {
@@ -310,7 +308,6 @@ export default {
         })
         .catch((error) => {});
     };
-
     const getBlockList = (val) => {
       data.blockOptions = [];
       data.block_box_group = [];
@@ -325,7 +322,6 @@ export default {
         })
         .catch((error) => {});
     };
-
     const transName = (city, town, block) => {
       let type = "";
       if (town) {
@@ -337,7 +333,6 @@ export default {
       } else {
         type = "city";
       }
-
       if (type === "city") {
         let newData = data.city_options.filter(
           (val) => val.city_id === city
@@ -364,7 +359,6 @@ export default {
         return newData;
       }
     };
-
     const getChartData = () => {
       if (!validateChart()) {
         return false;
@@ -384,7 +378,6 @@ export default {
         name: transName(data.city_value, data.town_value, data.block_box_group),
       };
       data.loading = true;
-
       GetChartData(requestData)
         .then((response) => {
           data.loading = false;
@@ -393,7 +386,6 @@ export default {
         })
         .catch((error) => {});
     };
-
     const validateChart = () => {
       if (!(data.time_start_value && data.time_end_value)) {
         ElMessage.error({
@@ -409,7 +401,6 @@ export default {
         });
         return false;
       }
-
       if (data.time_start_value > data.time_end_value) {
         ElMessage.error({
           type: "error",
@@ -417,7 +408,6 @@ export default {
         });
         return false;
       }
-
       if (data.area_input_min > data.area_input_max) {
         ElMessage.error({
           type: "error",
@@ -427,7 +417,6 @@ export default {
       }
       return true;
     };
-
     const clickAddFavour = () => {
       if (!validateChart()) {
         return false;
@@ -442,7 +431,6 @@ export default {
       data.dialogVisible = true;
       data.dialogMsg = "确认收藏当前条件下的房价走势？";
     };
-
     const addFavour = () => {
       let requestData = {
         uid: 2,
@@ -471,7 +459,6 @@ export default {
       if (res === null) {
         return;
       }
-
       data.period_type = res.cycletype;
       data.time_start_value = new Date(res.s_date);
       data.time_end_value = new Date(res.e_date);
@@ -485,9 +472,7 @@ export default {
       if (data.town_value) {
         getBlockList(data.town_value);
       }
-
     };
-
     onMounted(() => {
       getCityList();
       loadStorage();
@@ -496,7 +481,6 @@ export default {
     const click_more = () => {
       data.filter_more_flag = !data.filter_more_flag;
     };
-
     return {
       data,
       click_more,
@@ -512,7 +496,6 @@ export default {
   },
 };
 </script>
-
 <style lang="scss" scoped>
 .main-filter {
   h3 {
@@ -547,7 +530,6 @@ export default {
       margin-left: 5px;
     }
   }
-
   .time {
     .el-date-editor {
       margin: 0 20px;
@@ -557,13 +539,11 @@ export default {
       margin-right: 20px;
     }
   }
-
   .index {
     .el-radio-group {
       margin: 0 20px;
     }
   }
-
   .toward {
     margin-top: -15px;
     position: relative;
@@ -593,7 +573,6 @@ export default {
     .el-input {
       width: 50px;
       margin: 10px;
-
       /deep/ .el-input__inner {
         padding: 0 5px;
       }
@@ -611,13 +590,11 @@ export default {
     text-align: center;
     margin-bottom: 10px;
   }
-
   .arrow {
     border: solid #a7a8a9;
     border-width: 0 1px 1px 0;
     display: inline-block;
     padding: 3px;
-
     &.down {
       margin-bottom: 3px;
       transform: rotate(45deg);

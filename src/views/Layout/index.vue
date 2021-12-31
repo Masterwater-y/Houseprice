@@ -29,4 +29,7 @@ export default {
 #layout {
   background-color: #f7f7f7;
 }
+#header-wrap{
+  z-index: 99;
+}
 </style>

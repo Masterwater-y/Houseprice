@@ -3,6 +3,9 @@
     <div @click="navMenuState" class="pull-left header-icon">
       <svg-icon iconClass="menu" className="menu" />
     </div>
+    <div class="pull-left">
+      二手房量化投资助手系统
+    </div>
     <div class="pull-right" v-if="data.loginStatus">
       <div class="user-info pull-left">{{ username }}</div>
       <div class="header-icon pull-left" @click="exit">
