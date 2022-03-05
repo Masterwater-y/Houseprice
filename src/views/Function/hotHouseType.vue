@@ -67,26 +67,26 @@
     </div>
     <div class="table-wrap">
       <el-table
-        :data="data.tableData"
-        border
-        height="500"
-        style="width: 100%"
-        v-loading="data.loading"
+          :data="data.tableData"
+          border
+          height="500"
+          style="width: 100%"
+          v-loading="data.loading"
       >
         <el-table-column type="index" label="排名" width="100">
         </el-table-column>
         <el-table-column
-          prop="s_date"
-          align="center"
-          label="开始日期"
-          width="100"
+            prop="s_date"
+            align="center"
+            label="开始日期"
+            width="100"
         >
         </el-table-column>
         <el-table-column
-          prop="e_date"
-          align="center"
-          label="结束日期"
-          width="100"
+            prop="e_date"
+            align="center"
+            label="结束日期"
+            width="100"
         >
         </el-table-column>
         <el-table-column prop="cityname" align="center" label="区" width="100">
@@ -94,35 +94,32 @@
         <el-table-column prop="townname" align="center" label="村" width="100">
         </el-table-column>
         <el-table-column
-          prop="blockname"
-          align="center"
-          label="小区"        >
+            prop="blockname"
+            align="center"
+            label="小区"        >
         </el-table-column>
-        <el-table-column prop="floor" align="center" label="楼层" width="100">
-        </el-table-column>
-        <el-table-column prop="toward" align="center" label="朝向" width="100">
-        </el-table-column>
+
         <el-table-column
-          prop="housetype"
-          align="center"
-          label="房型"
-          width="100"
+            prop="housetype"
+            align="center"
+            label="房型"
+            width="100"
         >
         </el-table-column>
         <el-table-column prop="price" align="center" label="单价(元/平米)" width="150">
         </el-table-column>
         <el-table-column
-          prop="dealnum"
-          align="center"
-          label="成交量"
-          width="100"
+            prop="dealnum"
+            align="center"
+            label="成交量"
+            width="100"
         >
         </el-table-column>
         <el-table-column
-          prop="dealcycle"
-          align="center"
-          label="成交周期/天"
-          width="100"
+            prop="dealcycle"
+            align="center"
+            label="成交周期/天"
+            width="100"
         >
         </el-table-column>
       </el-table>
@@ -155,10 +152,9 @@ import { GetHotType } from "@/api/hottype";export default {
       city_options: [],
       town_options: [],
       chart_data: {
-        dateList: ["2019-01-07", "2019-01-14", "2019-01-21"],
+        dateList: [],
         dataList: {
-          广弘天琪: [12312, 23232, 33322],
-          御花苑: [22312, 24232, 30022],
+
         },
       },
       dialogVisible: false,
@@ -334,7 +330,7 @@ import { GetHotType } from "@/api/hottype";export default {
     }
     .el-input {
       width: 50px;
-      margin: 10px;      /deep/ .el-input__inner {
+      margin: 10px;      ::v-deep .el-input__inner {
         padding: 0 5px;
       }
     }

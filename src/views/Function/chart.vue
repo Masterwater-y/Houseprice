@@ -187,6 +187,7 @@ import { useStore } from "vuex";
 import { AddFavour } from "@/api/favour";
 import DialogVue from "@/components/Dialog/Dialog";
 import LineChart from "@/views/Function/component/LineChart";
+import {getUid} from "../../utils/app";
 export default {
   name: "Chart",
   components: {
@@ -201,7 +202,7 @@ export default {
       period_type: "month",
       time_start_value: "2016-01-01",
       time_end_value: "",
-      index_value: "",
+      index_value: "x102",
       block_value: "",
       city_value: "",
       town_value: "",
@@ -433,16 +434,20 @@ export default {
     };
     const addFavour = () => {
       let requestData = {
-        uid: 2,
+        uid: getUid(),
         s_date: data.time_start_value,
         e_date: data.time_end_value,
         block_id: data.block_box_group[0] || -1,
         town_id: data.town_value || -1,
-        city_id: data.city_value,
+        city_id: data.city_value||-1,
         cycletype: data.period_type,
         ftype: "history",
         indextype: data.index_value,
       };
+      if (requestData.city_id==-1){
+        ElMessage.error('请至少选择一个区')
+        return;
+      }
       AddFavour(requestData)
         .then((response) => {
           ElMessage.success({
@@ -573,7 +578,7 @@ export default {
     .el-input {
       width: 50px;
       margin: 10px;
-      /deep/ .el-input__inner {
+      ::v-deep .el-input__inner {
         padding: 0 5px;
       }
     }

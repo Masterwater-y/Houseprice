@@ -353,7 +353,7 @@ export default {
     }
     .el-input {
       width: 50px;
-      margin: 10px;      /deep/ .el-input__inner {
+      margin: 10px;      ::v-deep .el-input__inner {
         padding: 0 5px;
       }
     }

@@ -2,6 +2,7 @@ import cookie from "cookie_js";
 
 const tokenId = "admin_Token";
 const usernameKey = "username";
+const uidKey = "uid";
 
 export function getToken() {
   return cookie.get(tokenId);
@@ -25,6 +26,18 @@ export function getUsername() {
 
 export function removeUsername() {
   return cookie.remove(usernameKey);
+}
+
+export function setUid(value) {
+  return cookie.set(uidKey, value);
+}
+
+export function getUid() {
+  return cookie.get(uidKey);
+}
+
+export function removeUid() {
+  return cookie.remove(uidKey);
 }
 
 /**

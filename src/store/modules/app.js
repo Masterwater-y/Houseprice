@@ -8,6 +8,7 @@ import {
   removeUsername,
   removeToken,
 } from "@/utils/app";
+import {getUid, setUid} from "../../utils/app";
 
 const app = {
   namespaced: true, //加命名空间解耦，如果不加只有state是局部变量,加了时候其他调用方式为 dispatch('app/setMenuStatus')
@@ -19,6 +20,7 @@ const app = {
         : false, //json.parse将字符串转换为对象
     token: getToken() || "",
     username: getUsername() || "",
+    uid:getUid()||""
     //isCollapse: JSON.parse(sessionStorage.getItem('isCollapse')) || false //左边如果取不到就默认取false
   },
   getters: {
@@ -42,6 +44,10 @@ const app = {
       //调用： root.$store.commit('SET_COUNT',200)
       state.count = value;
     },
+    SET_UID(state, value) {
+      //调用： root.$store.commit('SET_COUNT',200)
+      state.uid = value;
+    },
   },
   actions: {
     setMenuStatus(content, data) {
@@ -57,8 +63,10 @@ const app = {
             console.log(res);
             content.commit("SET_TOKEN", res.token);
             content.commit("SET_USERNAME", res.username);
+            content.commit("SET_UID", res.uid);
             setToken(res.token);
             setUsername(res.username);
+            setUid(res.uid)
             resolve();
           })
           .catch((error) => {

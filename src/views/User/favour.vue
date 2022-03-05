@@ -73,6 +73,7 @@ import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import DialogVue from "@/components/Dialog/Dialog";
+import {getUid} from "../../utils/app";
 export default {
   name: "index",
   components: {
@@ -116,7 +117,7 @@ export default {
     });
     const getFavour = () => {
       GetFavour({
-        uid: 2,
+        uid: getUid(),
       })
         .then((response) => {
           data.tableData = response.data.data;
@@ -151,9 +152,9 @@ export default {
       }
     };
     const indextypeFormatter = (row, column, cellValue) => {
-      let res = data.indexOptions.filter((val) => val.label == cellValue)[0]
-        .name;
-      return res;
+      let res = data.indexOptions.filter((val) => val.label == cellValue)
+      console.log(res)
+      return res[0].name;
     };
     const handleSearch = (row) => {
       store.commit("chart/UPDATE_STATE_VALUE", {
